@@ -16,6 +16,15 @@ const useWebcontainer = () => {
             "- Name: Aash Jain\n- Location: San Francisco, CA\n- Experience: YC W24, Retool, Stripe",
         },
       },
+      writing: {
+        directory: {
+          "test.md": {
+            file: {
+              contents: "This is a test file.",
+            },
+          },
+        },
+      },
     });
     webContainerInitialized.current = true;
     setWebContainer(webcontainer);
