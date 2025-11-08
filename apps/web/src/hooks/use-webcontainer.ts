@@ -13,7 +13,7 @@ const useWebcontainer = () => {
       "about.txt": {
         file: {
           contents:
-            "- Name: Aash Jain\n- Location: San Francisco, CA\n- Experience: YC, Retool, Stripe",
+            "- Name: Aash Jain\n- Location: San Francisco, CA\n- Experience: YC W24, Retool, Stripe",
         },
       },
     });
