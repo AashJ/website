@@ -16,8 +16,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "turbo": "^2.5.4",
-    "oxlint": "^1.12.0"
+    "oxlint": "^1.12.0",
+    "turbo": "^2.5.4"
   },
   "packageManager": "bun@1.3.0"
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { WebContainer } from "@webcontainer/api";
+import { WebContainer, type FileSystemTree } from "@webcontainer/api";
+import { allPosts } from "content-collections";
 
 const useWebcontainer = () => {
   const webContainerInitialized = useRef(false);
@@ -17,15 +18,56 @@ const useWebcontainer = () => {
         },
       },
       writing: {
-        directory: {
-          "test.md": {
-            file: {
-              contents: "This is a test file.",
+        directory: allPosts.reduce<FileSystemTree>((acc, curr) => {
+          return {
+            ...acc,
+            [curr.title]: {
+              file: {
+                contents: curr.content,
+              },
             },
-          },
-        },
+          };
+        }, {}),
       },
     });
+
+    await webcontainer.fs.writeFile(
+      "/read.js",
+      `#!/usr/bin/env node
+const fs = require('fs');
+const path = require('path');
+
+const filepath = process.argv[2];
+if (!filepath) {
+  console.log('Usage: read <file>');
+  process.exit(1);
+}
+
+// Resolve to absolute path
+const absolutePath = path.resolve(filepath);
+
+// Check if it's in the writing directory
+if (absolutePath.includes('/writing/')) {
+  const filename = path.basename(absolutePath);
+  console.log('__OPEN_POST__:' + filename);
+} else {
+  // Fallback to cat
+  try {
+    const content = fs.readFileSync(filepath, 'utf-8');
+    console.log(content);
+  } catch (err) {
+    console.error('Error reading file:', err.message);
+    process.exit(1);
+  }
+}`,
+      {
+        encoding: "utf-8",
+      }
+    );
+
+    await webcontainer.spawn("chmod", ["+x", "read.js"]);
+    await webcontainer.spawn("mv", ["read.js", "/usr/bin/read"]);
+
     webContainerInitialized.current = true;
     setWebContainer(webcontainer);
   };

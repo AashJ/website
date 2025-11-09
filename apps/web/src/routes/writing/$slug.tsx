@@ -4,14 +4,11 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import { allPosts } from "content-collections";
+import { MDXContent } from "@content-collections/mdx/react";
 
 export const Route = createFileRoute("/writing/$slug")({
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
-    console.log("=======");
-    console.log(allPosts);
-
-    console.log("=======");
     const post = allPosts.find((post) => post.title === params.slug);
 
     if (!post) {
@@ -28,5 +25,5 @@ export const Route = createFileRoute("/writing/$slug")({
 
 function RouteComponent() {
   const { post } = useRouteContext({ from: "/writing/$slug" });
-  return <div>{post.content}</div>;
+  return <MDXContent code={post.mdx} />;
 }
