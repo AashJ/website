@@ -30,14 +30,16 @@ function RouteComponent() {
   const { post } = useRouteContext({ from: "/_home/index/writing/$slug" });
   return (
     <Drawer
-      defaultOpen={true}
+      open={true}
       onClose={() => {
         navigate({ to: "/", replace: true });
       }}
     >
-      <DrawerContent>
-        <DrawerTitle>{post.title}</DrawerTitle>
-        <MDXContent code={post.mdx} />
+      <DrawerContent className="h-[80vh]">
+        <div className="p-4 space-y-4">
+          <DrawerTitle>{post.title}</DrawerTitle>
+          <MDXContent code={post.mdx} />
+        </div>
       </DrawerContent>
     </Drawer>
   );
