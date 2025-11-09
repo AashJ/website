@@ -4,6 +4,8 @@ import { FitAddon } from "@xterm/addon-fit";
 import { WebContainer } from "@webcontainer/api";
 import "xterm/css/xterm.css";
 import { useNavigate } from "@tanstack/react-router";
+import { getCssVariable } from "@/hooks/get-css-variable";
+import { oklchStringToHex } from "@/lib/utils";
 
 interface TerminalComponentProps {
   webContainer: WebContainer | null;
@@ -20,28 +22,39 @@ export default function TerminalComponent({
   useEffect(() => {
     if (!terminalRef.current) return;
 
+    // Helper to convert CSS variable to hex (handles both hex and OKLCH)
+    const cssVarToHex = (varName: string, fallback: string): string => {
+      const value = getCssVariable(varName);
+      if (!value) return fallback;
+      // If it's already hex, return it; otherwise convert from OKLCH
+      return value.startsWith("#") ? value : oklchStringToHex(value);
+    };
+
+    const backgroundHex = cssVarToHex("--background", "#ffffff");
+    const foregroundHex = cssVarToHex("--foreground", "#000000");
+
     // Initialize terminal
     const terminal = new Terminal({
       theme: {
-        background: "#0d1117",
-        foreground: "#c9d1d9",
-        cursor: "#58a6ff",
-        black: "#484f58",
-        red: "#f85149",
-        green: "#3fb950",
-        yellow: "#d29922",
-        blue: "#58a6ff",
-        magenta: "#bc8cff",
-        cyan: "#39c5cf",
-        white: "#b1bac4",
-        brightBlack: "#6e7681",
-        brightRed: "#ff7b72",
-        brightGreen: "#56d364",
-        brightYellow: "#e3b341",
-        brightBlue: "#79c0ff",
-        brightMagenta: "#d2a8ff",
-        brightCyan: "#56d4dd",
-        brightWhite: "#f0f6fc",
+        background: backgroundHex,
+        foreground: foregroundHex,
+        cursor: cssVarToHex("--terminal-cursor", "#58a6ff"),
+        black: cssVarToHex("--terminal-black", "#484f58"),
+        red: cssVarToHex("--terminal-red", "#f85149"),
+        green: cssVarToHex("--terminal-green", "#3fb950"),
+        yellow: cssVarToHex("--terminal-yellow", "#d29922"),
+        blue: cssVarToHex("--terminal-blue", "#58a6ff"),
+        magenta: cssVarToHex("--terminal-magenta", "#bc8cff"),
+        cyan: cssVarToHex("--terminal-cyan", "#39c5cf"),
+        white: cssVarToHex("--terminal-white", "#b1bac4"),
+        brightBlack: cssVarToHex("--terminal-bright-black", "#6e7681"),
+        brightRed: cssVarToHex("--terminal-bright-red", "#ff7b72"),
+        brightGreen: cssVarToHex("--terminal-bright-green", "#56d364"),
+        brightYellow: cssVarToHex("--terminal-bright-yellow", "#e3b341"),
+        brightBlue: cssVarToHex("--terminal-bright-blue", "#79c0ff"),
+        brightMagenta: cssVarToHex("--terminal-bright-magenta", "#d2a8ff"),
+        brightCyan: cssVarToHex("--terminal-bright-cyan", "#56d4dd"),
+        brightWhite: cssVarToHex("--terminal-bright-white", "#f0f6fc"),
       },
       fontSize: 14,
       fontFamily: "Monaco, Menlo, 'Ubuntu Mono', monospace",
@@ -152,7 +165,7 @@ export default function TerminalComponent({
   }, [webContainer]);
 
   return (
-    <div className="h-screen w-screen bg-[#0d1117] p-4">
+    <div className="h-screen w-screen bg-background p-4">
       <div
         ref={terminalRef}
         className="h-full w-full"
