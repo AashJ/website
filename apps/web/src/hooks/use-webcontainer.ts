@@ -14,7 +14,7 @@ const useWebcontainer = () => {
       "about.txt": {
         file: {
           contents:
-            "- Name: Aash Jain\n- Location: San Francisco, CA\n- Experience: YC W24, Retool, Stripe, Kleiner Perkins\n- Education: UPenn",
+            "- Name: Aash Jain\n- Location: San Francisco, CA\n- Experience: YC W24, Retool, Stripe, Kleiner Perkins\n- Education: UPenn\n- Contact: aash.jain99@gmail.com",
         },
       },
       writing: {
