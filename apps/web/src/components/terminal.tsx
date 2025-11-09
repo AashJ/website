@@ -141,10 +141,10 @@ export default function TerminalComponent({
         });
 
         // Display welcome instructions
-        terminal.writeln("Currently under construction");
+        terminal.writeln("⚠️ Currently under construction");
         terminal.writeln("Welcome! Try these commands:");
         terminal.writeln("- ls - List files and directories");
-        terminal.writeln("- read <filename> - Read a file");
+        terminal.writeln("- open <filename> - Read a file");
         terminal.writeln("");
       } catch (error) {
         terminal.writeln(`Error: ${error}`);

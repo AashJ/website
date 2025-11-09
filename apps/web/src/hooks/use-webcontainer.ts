@@ -9,7 +9,7 @@ const useWebcontainer = () => {
   const initializeWebcontainer = async () => {
     if (webContainerInitialized.current) return;
 
-    const webcontainer = await WebContainer.boot();
+    const webcontainer = await WebContainer.boot({ workdirName: "web" });
     webcontainer.mount({
       "about.txt": {
         file: {
