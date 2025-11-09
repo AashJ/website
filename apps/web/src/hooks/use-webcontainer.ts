@@ -23,50 +23,19 @@ const useWebcontainer = () => {
             ...acc,
             [`${curr.slug}`]: {
               file: {
-                contents: curr.content,
+                contents: `---
+title: "${curr.title}"
+slug: "${curr.slug}"
+summary: "${curr.summary}"
+---
+
+${curr.content}`,
               },
             },
           };
         }, {}),
       },
     });
-
-    await webcontainer.fs.writeFile(
-      "/read.js",
-      `#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-
-const filepath = process.argv[2];
-if (!filepath) {
-  console.log('Usage: read <file>');
-  process.exit(1);
-}
-
-// Resolve to absolute path
-const absolutePath = path.resolve(filepath);
-
-// Check if it's in the writing directory
-if (absolutePath.includes('/writing/')) {
-  const filename = path.basename(absolutePath);
-  console.log('__OPEN_POST__:' + filename);
-} else {
-  // Fallback to cat
-  try {
-    const content = fs.readFileSync(filepath, 'utf-8');
-    console.log(content);
-  } catch (err) {
-    console.error('Error reading file:', err.message);
-    process.exit(1);
-  }
-}`,
-      {
-        encoding: "utf-8",
-      }
-    );
-
-    await webcontainer.spawn("chmod", ["+x", "read.js"]);
-    await webcontainer.spawn("mv", ["read.js", "/usr/bin/read"]);
 
     webContainerInitialized.current = true;
     setWebContainer(webcontainer);

@@ -10,6 +10,7 @@ const posts = defineCollection({
     title: z.string(),
     content: z.string(),
     slug: z.string(),
+    summary: z.string(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);

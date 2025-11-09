@@ -100,3 +100,37 @@ export function oklchStringToHex(oklchString: string): string {
 
   return oklchToHex(l, c, hue);
 }
+
+/**
+ * Parses frontmatter from markdown content
+ * @param content - The markdown content string
+ * @returns Object with title, slug, and summary if valid frontmatter is found, null otherwise
+ */
+export function isPost(
+  content: string
+): { title: string; slug: string; summary: string } | null {
+  // Regex to match frontmatter delimited by ---
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+
+  if (!match) {
+    return null;
+  }
+
+  const frontmatter = match[1];
+
+  // Extract title, slug, and summary
+  const titleMatch = frontmatter.match(/title:\s*["'](.+?)["']/);
+  const slugMatch = frontmatter.match(/slug:\s*["'](.+?)["']/);
+  const summaryMatch = frontmatter.match(/summary:\s*["'](.+?)["']/);
+
+  if (!titleMatch || !slugMatch || !summaryMatch) {
+    return null;
+  }
+
+  return {
+    title: titleMatch[1],
+    slug: slugMatch[1],
+    summary: summaryMatch[1],
+  };
+}
