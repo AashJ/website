@@ -6,7 +6,12 @@ import contentCollections from "@content-collections/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [tailwindcss(), tanstackRouter({}), react(), contentCollections()],
+  plugins: [
+    tailwindcss(),
+    tanstackRouter({ autoCodeSplitting: true }),
+    react(),
+    contentCollections(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

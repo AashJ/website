@@ -112,6 +112,7 @@ export default function TerminalComponent({
           new WritableStream({
             write(data) {
               if (data.startsWith("__OPEN_POST__")) {
+                console.log(data);
                 const post = data.split(":")[1];
                 if (post) {
                   navigate({

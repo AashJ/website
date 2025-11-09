@@ -1,5 +1,6 @@
 ---
-title: "hello-world"
+title: "Hello world"
+slug: "hello-world"
 summary: "Welcome to my website"
 ---
 

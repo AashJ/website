@@ -9,7 +9,7 @@ import { MDXContent } from "@content-collections/mdx/react";
 export const Route = createFileRoute("/writing/$slug")({
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
-    const post = allPosts.find((post) => post.title === params.slug);
+    const post = allPosts.find((post) => post.slug === params.slug);
 
     if (!post) {
       throw redirect({

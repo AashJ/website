@@ -21,7 +21,7 @@ const useWebcontainer = () => {
         directory: allPosts.reduce<FileSystemTree>((acc, curr) => {
           return {
             ...acc,
-            [curr.title]: {
+            [`${curr.slug}`]: {
               file: {
                 contents: curr.content,
               },
