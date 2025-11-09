@@ -31,7 +31,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 function RootComponent() {
   return (
     <ThemeProvider defaultTheme="system" enableSystem attribute="class">
-      <div className="fixed bottom-0 right-0">
+      <div className="fixed bottom-0 right-0 z-100">
         <ModeToggle />
       </div>
       <HeadContent />
