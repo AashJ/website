@@ -1,21 +1,33 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  createFileRoute,
+  redirect,
+  useNavigate,
+  useRouteContext,
+} from "@tanstack/react-router";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { allPosts } from "content-collections";
+import { MDXContent } from "@content-collections/mdx/react";
 
 export const Route = createFileRoute("/_home/index/writing/$slug")({
   component: RouteComponent,
+  beforeLoad: async ({ params }) => {
+    const post = allPosts.find((post) => post.title === params.slug);
+
+    if (!post) {
+      throw redirect({
+        to: "/",
+      });
+    }
+
+    return {
+      post,
+    };
+  },
 });
 
 function RouteComponent() {
   const navigate = useNavigate();
+  const { post } = useRouteContext({ from: "/_home/index/writing/$slug" });
   return (
     <Drawer
       defaultOpen={true}
@@ -24,10 +36,7 @@ function RouteComponent() {
       }}
     >
       <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Move Goal</DrawerTitle>
-          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-        </DrawerHeader>
+        <MDXContent code={post.mdx} />
       </DrawerContent>
     </Drawer>
   );
