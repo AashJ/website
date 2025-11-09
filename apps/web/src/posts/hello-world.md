@@ -1,6 +1,6 @@
 ---
 title: "hello-world"
-summary: "This is my first post!"
+summary: "Welcome to my website"
 ---
 
-This is my first post!
+Hello, world! Welcome to my website. You can find a bit about me, some writing, and more.
