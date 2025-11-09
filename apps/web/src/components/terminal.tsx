@@ -95,7 +95,14 @@ export default function TerminalComponent({
         shellProcess.output.pipeTo(
           new WritableStream({
             write(data) {
-              terminal.write(data);
+              if (data.startsWith("__OPEN_POST__")) {
+                const post = data.split(":")[1];
+                if (post) {
+                  console.log("should read ", post);
+                }
+              } else {
+                terminal.write(data);
+              }
             },
           })
         );
@@ -110,7 +117,7 @@ export default function TerminalComponent({
         // Display welcome instructions
         terminal.writeln("Welcome! Try these commands:");
         terminal.writeln("  • ls - List files and directories");
-        terminal.writeln("  • cat <filename> - Display file contents");
+        terminal.writeln("  • read <filename> - Read a file");
         terminal.writeln("");
       } catch (error) {
         terminal.writeln(`Error: ${error}`);
