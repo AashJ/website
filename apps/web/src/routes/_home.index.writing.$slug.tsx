@@ -4,7 +4,7 @@ import {
   useNavigate,
   useRouteContext,
 } from "@tanstack/react-router";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { allPosts } from "content-collections";
 import { MDXContent } from "@content-collections/mdx/react";
 
@@ -36,6 +36,7 @@ function RouteComponent() {
       }}
     >
       <DrawerContent>
+        <DrawerTitle>{post.title}</DrawerTitle>
         <MDXContent code={post.mdx} />
       </DrawerContent>
     </Drawer>

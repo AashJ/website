@@ -6,6 +6,8 @@
 @theme {
   --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "Liberation Mono",
+    "Courier New", monospace;
 }
 
 html,
@@ -162,5 +164,6 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-mono);
   }
 }
