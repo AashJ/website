@@ -9,54 +9,81 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as HomeRouteImport } from './routes/_home'
+import { Route as HomeIndexRouteImport } from './routes/_home.index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
+import { Route as HomeIndexWritingSlugRouteImport } from './routes/_home.index.writing.$slug'
 
-const IndexRoute = IndexRouteImport.update({
+const HomeRoute = HomeRouteImport.update({
+  id: '/_home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeIndexRoute = HomeIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => HomeRoute,
 } as any)
 const WritingSlugRoute = WritingSlugRouteImport.update({
   id: '/writing/$slug',
   path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeIndexWritingSlugRoute = HomeIndexWritingSlugRouteImport.update({
+  id: '/index/writing/$slug',
+  path: '/index/writing/$slug',
+  getParentRoute: () => HomeRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/writing/$slug': typeof WritingSlugRoute
+  '/': typeof HomeIndexRoute
+  '/index/writing/$slug': typeof HomeIndexWritingSlugRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/writing/$slug': typeof WritingSlugRoute
+  '/': typeof HomeIndexRoute
+  '/index/writing/$slug': typeof HomeIndexWritingSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_home': typeof HomeRouteWithChildren
   '/writing/$slug': typeof WritingSlugRoute
+  '/_home/': typeof HomeIndexRoute
+  '/_home/index/writing/$slug': typeof HomeIndexWritingSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/writing/$slug'
+  fullPaths: '/writing/$slug' | '/' | '/index/writing/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/writing/$slug'
-  id: '__root__' | '/' | '/writing/$slug'
+  to: '/writing/$slug' | '/' | '/index/writing/$slug'
+  id:
+    | '__root__'
+    | '/_home'
+    | '/writing/$slug'
+    | '/_home/'
+    | '/_home/index/writing/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  HomeRoute: typeof HomeRouteWithChildren
   WritingSlugRoute: typeof WritingSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_home': {
+      id: '/_home'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_home/': {
+      id: '/_home/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof HomeRoute
     }
     '/writing/$slug': {
       id: '/writing/$slug'
@@ -65,11 +92,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_home/index/writing/$slug': {
+      id: '/_home/index/writing/$slug'
+      path: '/index/writing/$slug'
+      fullPath: '/index/writing/$slug'
+      preLoaderRoute: typeof HomeIndexWritingSlugRouteImport
+      parentRoute: typeof HomeRoute
+    }
   }
 }
 
+interface HomeRouteChildren {
+  HomeIndexRoute: typeof HomeIndexRoute
+  HomeIndexWritingSlugRoute: typeof HomeIndexWritingSlugRoute
+}
+
+const HomeRouteChildren: HomeRouteChildren = {
+  HomeIndexRoute: HomeIndexRoute,
+  HomeIndexWritingSlugRoute: HomeIndexWritingSlugRoute,
+}
+
+const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  HomeRoute: HomeRouteWithChildren,
   WritingSlugRoute: WritingSlugRoute,
 }
 export const routeTree = rootRouteImport

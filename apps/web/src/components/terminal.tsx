@@ -3,6 +3,7 @@ import { Terminal } from "xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { WebContainer } from "@webcontainer/api";
 import "xterm/css/xterm.css";
+import { useNavigate } from "@tanstack/react-router";
 
 interface TerminalComponentProps {
   webContainer: WebContainer | null;
@@ -75,6 +76,8 @@ export default function TerminalComponent({
     };
   }, []);
 
+  const navigate = useNavigate();
+
   // Connect to WebContainer when it's ready
   useEffect(() => {
     if (!webContainer || !terminalInstanceRef.current) return;
@@ -98,7 +101,17 @@ export default function TerminalComponent({
               if (data.startsWith("__OPEN_POST__")) {
                 const post = data.split(":")[1];
                 if (post) {
-                  console.log("should read ", post);
+                  navigate({
+                    to: "/index/writing/$slug",
+                    params: {
+                      slug: post,
+                    },
+                    mask: {
+                      to: "/writing/$slug",
+                      params: { slug: post },
+                      unmaskOnReload: true,
+                    },
+                  });
                 }
               } else {
                 terminal.write(data);
