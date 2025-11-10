@@ -18,7 +18,7 @@ Criteria I was not optimizing for:
 - A website that has all of my experience and serves as a resume. LinkedIn exists for that in some capacity, and I don't feel the need to turn this website into that.
 - Website speed. Internet speed nowadays is fast enough and this website isn't a conversion funnel into anything, so 🤷‍♂️
 
-I spent 15 minutes brainstorming ideas and came up with this shortlist:
+I branstormed and came up with this shortlist:
 
 - terminal with neovim open by default and some files that allowed you to explore "me"
 - terminal that you ssh into and the following commands were instructive:
@@ -28,7 +28,7 @@ I spent 15 minutes brainstorming ideas and came up with this shortlist:
 - Recreation of GitHub git log UI, where the git log was my life + experiences (I still want to incorporate this into the terminal)
 - Recreation of chrome dev tools
 
-As you can tell, I liked this terminal concept and settled in on it. I initially spent a bit of time brainstorming how I'd make a terminal work and the first thoughts that came to my mind were around spinning up some light VMs. I quickly decided I'd have to throw away this idea if I wanted to finish it and get it deployed into production on this plane. Luckily, I remembered reading about [WebContainers](https://webcontainers.io/), which solved this problem of spinning up light VMs. After that, it was pretty simple:
+As you can tell, I liked this terminal concept and settled in on it. I spent a bit of time on how I'd make a terminal work and the first thoughts that came to my mind were around spinning up some light VMs. This was not feasible for many reasons but most importantly I couldn't do this on a plane. I remembered reading about [WebContainers](https://webcontainers.io/), which solved this problem of spinning up light VMs. After that, it was pretty simple:
 
 1. Spin up a webcontainer
 2. Add the files that I want
