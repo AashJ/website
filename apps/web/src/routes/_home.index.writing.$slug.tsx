@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { allPosts } from "content-collections";
-import { MDXContent } from "@content-collections/mdx/react";
+import MDXArticle from "@/components/mdx-article";
 
 export const Route = createFileRoute("/_home/index/writing/$slug")({
   component: RouteComponent,
@@ -36,10 +36,12 @@ function RouteComponent() {
       }}
     >
       <DrawerContent className="h-[80vh]">
-        <div className="p-4 space-y-4">
-          <DrawerTitle>{post.title}</DrawerTitle>
-          <MDXContent code={post.mdx} />
-        </div>
+        <DrawerTitle className="hidden">{post.title}</DrawerTitle>
+        <MDXArticle
+          code={post.mdx}
+          title={post.title}
+          date={post.date.toISOString()}
+        />
       </DrawerContent>
     </Drawer>
   );

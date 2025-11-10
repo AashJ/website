@@ -4,7 +4,7 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import { allPosts } from "content-collections";
-import { MDXContent } from "@content-collections/mdx/react";
+import MDXArticle from "@/components/mdx-article";
 
 export const Route = createFileRoute("/writing/$slug")({
   component: RouteComponent,
@@ -25,5 +25,11 @@ export const Route = createFileRoute("/writing/$slug")({
 
 function RouteComponent() {
   const { post } = useRouteContext({ from: "/writing/$slug" });
-  return <MDXContent code={post.mdx} />;
+  return (
+    <MDXArticle
+      code={post.mdx}
+      title={post.title}
+      date={post.date.toISOString()}
+    />
+  );
 }

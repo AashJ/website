@@ -136,7 +136,6 @@ export default function TerminalComponent({
                   mask: {
                     to: "/writing/$slug",
                     params: { slug: post.slug },
-                    unmaskOnReload: true,
                   },
                 });
               } else {

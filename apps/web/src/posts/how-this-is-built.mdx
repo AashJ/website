@@ -1,0 +1,41 @@
+---
+title: "How this website is built"
+slug: "how-this-is-built"
+summary: "Detailing how this website is built"
+date: "11-10-2025"
+---
+
+I had been looking for an excuse to re-design my extremely old personal website, and 4 out of 16 hours on a flight was the perfect time to bang this out.
+
+The criteria for the website was as following:
+
+- Creativity. I could have stood up a page similar to [Patrick Collison's](https://patrickcollison.com/) (it's a great website) personal website which seem to be in vogue nowadays (simple is back), but wanted something where the website itself was content that characterized me.
+- Ease of adding additional content/writing/musings to
+- A primarmily technical audience who would find this fun
+
+Criteria I was not optimizing for:
+
+- A website that has all of my experience and serves as a resume. LinkedIn exists for that in some capacity, and I don't feel the need to turn this website into that.
+- Website speed. Internet speed nowadays is fast enough and this website isn't a conversion funnel into anything, so 🤷‍♂️
+
+I spent 15 minutes brainstorming ideas and came up with this shortlist:
+
+- terminal with neovim open by default and some files that allowed you to explore "me"
+- terminal that you ssh into and the following commands were instructive:
+  - `whoami`
+  - `ls`
+  - `cat`
+- Recreation of GitHub git log UI, where the git log was my life + experiences (I still want to incorporate this into the terminal)
+- Recreation of chrome dev tools
+
+As you can tell, I liked this terminal concept and settled in on it. I initially spent a bit of time brainstorming how I'd make a terminal work and the first thoughts that came to my mind were around spinning up some light VMs. I quickly decided I'd have to throw away this idea if I wanted to finish it and get it deployed into production on this plane. Luckily, I remembered reading about [WebContainers](https://webcontainers.io/), which solved this problem of spinning up light VMs. After that, it was pretty simple:
+
+1. Spin up a webcontainer
+2. Add the files that I want
+3. Emulate a terminal with xterm.js
+
+This worked pretty well, until I realized I'd want some rich content (links, etc.) and it was a pretty bad reading experience to not be able to click on links, etc. Ultimately, I decided on hijacking the output of the terminal to detect the frontmatter in any of my writing's markdown files, and then displaying a popup to not take you out of your terminal experience.
+
+I'm pretty happy with the way this turned out, it's fun (at least for me and a couple of friends), and hits all the criteria I listed above.
+
+\- _aash_
