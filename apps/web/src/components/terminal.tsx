@@ -153,7 +153,6 @@ export default function TerminalComponent({
         });
 
         // Display welcome instructions
-        terminal.writeln("⚠️ Currently under construction");
         terminal.writeln("Welcome! Try these commands:");
         terminal.writeln("- ls - List files and directories");
         terminal.writeln("- cat <filename> - Read a file");
