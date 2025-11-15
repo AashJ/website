@@ -18,22 +18,23 @@ const useWebcontainer = () => {
         },
       },
       writing: {
-        directory: allPosts.reduce<FileSystemTree>((acc, curr) => {
-          return {
-            ...acc,
-            [`${curr.slug}`]: {
-              file: {
-                contents: `---
+        directory: allPosts
+          .filter((post) => !post.draft)
+          .reduce<FileSystemTree>((acc, curr) => {
+            return {
+              ...acc,
+              [`${curr.slug}`]: {
+                file: {
+                  contents: `---
 title: "${curr.title}"
 slug: "${curr.slug}"
-summary: "${curr.summary}"
 ---
 
 ${curr.content}`,
+                },
               },
-            },
-          };
-        }, {}),
+            };
+          }, {}),
       },
     });
 

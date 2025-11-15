@@ -108,7 +108,7 @@ export function oklchStringToHex(oklchString: string): string {
  */
 export function isPost(
   content: string
-): { title: string; slug: string; summary: string } | null {
+): { title: string; slug: string } | null {
   // Regex to match frontmatter delimited by ---
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
   const match = content.match(frontmatterRegex);
@@ -122,15 +122,13 @@ export function isPost(
   // Extract title, slug, and summary
   const titleMatch = frontmatter.match(/title:\s*["'](.+?)["']/);
   const slugMatch = frontmatter.match(/slug:\s*["'](.+?)["']/);
-  const summaryMatch = frontmatter.match(/summary:\s*["'](.+?)["']/);
 
-  if (!titleMatch || !slugMatch || !summaryMatch) {
+  if (!titleMatch || !slugMatch) {
     return null;
   }
 
   return {
     title: titleMatch[1],
     slug: slugMatch[1],
-    summary: summaryMatch[1],
   };
 }

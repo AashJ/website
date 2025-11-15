@@ -11,7 +11,9 @@ import MDXArticle from "@/components/mdx-article";
 export const Route = createFileRoute("/_home/index/writing/$slug")({
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
-    const post = allPosts.find((post) => post.slug === params.slug);
+    const post = allPosts
+      .filter((p) => !p.draft)
+      .find((post) => post.slug === params.slug);
 
     if (!post) {
       throw redirect({

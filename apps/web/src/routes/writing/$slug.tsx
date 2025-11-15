@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/writing/$slug")({
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
-    const post = allPosts.find((post) => post.slug === params.slug);
+    const post = allPosts
+      .filter((p) => !p.draft)
+      .find((post) => post.slug === params.slug);
 
     if (!post) {
       throw redirect({
